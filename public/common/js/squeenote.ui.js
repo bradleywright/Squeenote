@@ -197,7 +197,7 @@ squeenote.UI.prototype = {
       if(_instance.listen_for_presenter_hotkey && event.keyCode == _instance.presenter_controls_toggle_keycode) {
         _instance.togglePresenterAndClientControls(event);
       }
-      else if (_instance.presenter_controls_shown && event.keyCode == _instance.presenter_controls_hide) {
+      else if (_instance.presenter_controls_shown && !_instance.authenticated_as_presenter && event.keyCode == _instance.presenter_controls_hide) {
        _instance.togglePresenterAndClientControls(event);
       }
     });

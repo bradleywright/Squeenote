@@ -74,8 +74,9 @@ Server = this.Server = Class({
     sys.puts("Serving static file: "+request_info.href);
     if(request_info.href.indexOf("/public") != 0) return this.denyResponse(req, res, "Static file requested outside of public directory");
     if(request_info.href.indexOf("..") > -1) return this.denyResponse(req, res, "Illegal static file path");
+    var _instance = this;
     fs.readFile("."+request_info.href, function(error, data) {
-      if(error) return this.notFoundResponse(req, res);
+      if(error) return _instance.notFoundResponse(req, res);
       res.writeHead(200, {});
       res.write(data);
       res.end();

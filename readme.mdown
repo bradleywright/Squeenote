@@ -30,7 +30,7 @@ The Squeenote Node.js app supports several command line flags:
 
   node squeenote.node.js -f mypresentation.html -p presenterpassword -P port
 
-The default file is `index.html`, the default password is `ishouldhavesetapassword` and the default port is `8080`.
+The default file is `index.html`, the default password is `crc` and the default port is `8080`.
 
 Squeenote components
 --------------------

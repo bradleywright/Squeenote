@@ -11,11 +11,15 @@ var http = require('http'),
 
 Server = this.Server = Class({
 
-  init: function(presentation_path, presenter_password) {
+  init: function(presentation_path, presenter_password, static_path) {
     this.presenter_slide_history = []; // Contains all previously-selected slide indexes, excluding the currently-selected index.
     this.presenter_slide_index = null;
     this.presentation_path = presentation_path;
     this.presenter_password = presenter_password;
+    if (typeof(static_path) == 'undefined') {
+        static_path = '/public';
+    }
+    this.static_path = static_path;
     this.httpListener = null;
     this.wsListener = null;
   },
@@ -52,7 +56,7 @@ Server = this.Server = Class({
     var request_info = url.parse(req.url);
     sys.puts("Routing request for : "+request_info.href);
     if(request_info.pathname == "/") return this.presentationResponse(req, res);
-    else if(request_info.pathname.indexOf("/public" > -1)) return this.staticFileResponse(req, res);
+    else if(request_info.pathname.indexOf(this.static_path > -1)) return this.staticFileResponse(req, res);
     else return this.notFoundResponse(req, res);
   },
 
@@ -72,7 +76,7 @@ Server = this.Server = Class({
   staticFileResponse: function(req, res) {
     var request_info = url.parse(req.url);
     sys.puts("Serving static file: "+request_info.href);
-    if(request_info.href.indexOf("/public") != 0) return this.denyResponse(req, res, "Static file requested outside of public directory");
+    if(request_info.href.indexOf(this.static_path) != 0) return this.denyResponse(req, res, "Static file requested outside of public directory");
     if(request_info.href.indexOf("..") > -1) return this.denyResponse(req, res, "Illegal static file path");
     var _instance = this;
     fs.readFile("."+request_info.href, function(error, data) {

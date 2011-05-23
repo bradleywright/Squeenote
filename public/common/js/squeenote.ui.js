@@ -10,6 +10,7 @@ squeenote.UI.prototype = {
   "presenter_controls_toggle_keycode": 187, // Equals key
   "prev_slide_keycode": 37, // Left key
   "next_slide_keycode": 39, // Right key
+  "presenter_controls_hide": 27, // Esc key
   "authenticated_as_presenter": false,
   "ui_wrapper": null,
   "listen_for_presenter_hotkey": true,
@@ -195,6 +196,9 @@ squeenote.UI.prototype = {
     $(document).bind(this.keyPressEventName(), function(event) {
       if(_instance.listen_for_presenter_hotkey && event.keyCode == _instance.presenter_controls_toggle_keycode) {
         _instance.togglePresenterAndClientControls(event);
+      }
+      else if (_instance.presenter_controls_shown && event.keyCode == _instance.presenter_controls_hide) {
+       _instance.togglePresenterAndClientControls(event);
       }
     });
   },

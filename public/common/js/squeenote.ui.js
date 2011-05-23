@@ -1,4 +1,4 @@
-if(typeof(squeenote)=="undefined") squeenote = {};
+if(typeof(squeenote)=="undefined") var squeenote = {};
 
 squeenote.UI = function(presentation) {
   this.init(presentation);
@@ -49,7 +49,7 @@ squeenote.UI.prototype = {
 
   "drawSlideCounter": function(into_selector) {
     var _instance = this;
-    target = $(into_selector);
+    var target = $(into_selector);
     target.prepend(
       "<section class=\"slide_counter\">\
           <a class=\"prev_slide\">&larr;</a>\
@@ -69,7 +69,7 @@ squeenote.UI.prototype = {
 
   "drawClientControls": function(into_selector) {
     var _instance = this;
-    target = $(into_selector);
+    var target = $(into_selector);
     target.prepend(
       "<section class=\"client_controls\">\
           <a class=\"follow_presenter_enabled disable_presenter_follow\">\
@@ -94,7 +94,7 @@ squeenote.UI.prototype = {
 
   "drawPresenterControls": function(into_selector) {
     var _instance = this;
-    target = $(into_selector);
+    var target = $(into_selector);
     target.prepend(
       "<section class=\"presenter_controls\">\
           <form id=\"presenter_authentication_form\" class=\"presenter_controls_disabled\" action=\"/authenticate\">\
@@ -214,8 +214,8 @@ squeenote.UI.prototype = {
   },
 
   "togglePresenterAndClientControls": function() {
-    intro = (this.presenter_controls_shown)? $(".client_controls") : $(".presenter_controls");
-    outro = (this.presenter_controls_shown)? $(".presenter_controls") : $(".client_controls");
+    var intro = (this.presenter_controls_shown)? $(".client_controls") : $(".presenter_controls");
+    var outro = (this.presenter_controls_shown)? $(".presenter_controls") : $(".client_controls");
     intro.animate({opacity: 1, left: 0}, 250);
     outro.animate({opacity: 0, left: -500}, 250);
     this.presenter_controls_shown = !this.presenter_controls_shown;

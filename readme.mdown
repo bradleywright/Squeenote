@@ -12,10 +12,10 @@ Squeenote presentations can be uploaded to a static file server for archival.
 To watch a presentation about squeenote:
 
 1. Install [Node.js](http://github.com/ry/node) (Squeenote is built for v0.94)
-2. Install [Socket.io](http://socket.io/)
-3. git clone git://github.com/danski/Squeenote.git
-4. cd Squeenote
-5. node squeenote.node.js
+2. Install [Socket.io](http://socket.io/) (i.e `npm install socket.io`)
+3. `git clone git://github.com/danski/Squeenote.git`
+4. `cd Squeenote`
+5. `node squeenote.node.js`
 6. Open your browser to http://127.0.0.1:8080
 
 Presenter mode
@@ -30,7 +30,7 @@ The Squeenote Node.js app supports several command line flags:
 
   node squeenote.node.js -f mypresentation.html -p presenterpassword -P port
 
-The default file is "index.html", the default password is "ishouldhavesetapassword" and the default port is 8080.
+The default file is `index.html`, the default password is `ishouldhavesetapassword` and the default port is `8080`.
 
 Squeenote components
 --------------------

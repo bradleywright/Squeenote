@@ -118,7 +118,7 @@ squeenote.UI.prototype = {
       _instance.listen_for_presenter_hotkey = true;
     })
     $(".disable_presenter_mode").click(function(event) {
-      this.togglePresenterAndClientControls();
+      _instance.togglePresenterAndClientControls();
       $("#presenter_password").val("");
       $("#presenter_authentication_form").submit();
     });

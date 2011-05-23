@@ -5,7 +5,7 @@
 body {
   font-family: Helvetica;
   font-size: 1.5em;
-  background: #EFEFEF url('/public/squeenote-default/background.png');
+  background: #EFEFEF url(background.png);
   color: #333;
   width: 100%;
   height: 100%;

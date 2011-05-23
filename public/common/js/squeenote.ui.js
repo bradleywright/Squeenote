@@ -4,7 +4,7 @@ squeenote.UI = function(presentation) {
   this.init(presentation);
 }
 squeenote.UI.prototype = {
-  
+
   "presentation": null,
   "dispatcher": null,
   "presenter_controls_toggle_keycode": 187, // Equals key
@@ -14,38 +14,38 @@ squeenote.UI.prototype = {
   "ui_wrapper": null,
   "listen_for_presenter_hotkey": true,
   "presenter_controls_shown": false,
-  
+
   "init": function(presentation) {
     this.presentation = presentation;
     this.dispatcher = presentation.jq_presentation;
-    
+
     // Create main UI wrapper
     $("body").prepend("<section id=\"squeenote_controls\"><section>");
     this.ui_wrapper = $("#squeenote_controls");
-    
+
     // Create slide counter
-    this.drawSlideCounter(this.ui_wrapper);    
+    this.drawSlideCounter(this.ui_wrapper);
     // Draw Client controls
     this.drawClientControls(this.ui_wrapper);
     // Draw Presenter controls
     this.drawPresenterControls(this.ui_wrapper);
-    
+
     // Bind presentation status events
-    this.bindPresentationStatusEvents(this.dispatcher);    
+    this.bindPresentationStatusEvents(this.dispatcher);
     // Bind presenter status events
-    this.bindPresenterStatusEvents(this.dispatcher);    
+    this.bindPresenterStatusEvents(this.dispatcher);
     // Bind client status events
     this.bindClientStatusEvents(this.dispatcher);
-    
+
     // Bind client control actions
     this.bindClientControlActions(this.dispatcher);
     // Bind presenter control actions
     this.bindPresenterControlActions(this.dispatcher);
-    
+
     // Perform device-specific modifications
     this.bindDeviceEvents();
   },
-  
+
   "drawSlideCounter": function(into_selector) {
     var _instance = this;
     target = $(into_selector);
@@ -57,7 +57,7 @@ squeenote.UI.prototype = {
           <a class=\"next_slide\">&rarr;</a>\
        </section>"
     );
-     
+
     $("#squeenote_controls a.prev_slide").bind("click tap", function(event) {
       event.preventDefault(); _instance.presentation.prevSlide();
     });
@@ -65,7 +65,7 @@ squeenote.UI.prototype = {
       event.preventDefault(); _instance.presentation.nextSlide();
     });
   },
-  
+
   "drawClientControls": function(into_selector) {
     var _instance = this;
     target = $(into_selector);
@@ -90,7 +90,7 @@ squeenote.UI.prototype = {
       _instance.presentation.stopFollowingPresenter();
     });
   },
-  
+
   "drawPresenterControls": function(into_selector) {
     var _instance = this;
     target = $(into_selector);
@@ -122,11 +122,11 @@ squeenote.UI.prototype = {
       $("#presenter_authentication_form").submit();
     });
   },
-  
+
   "bindPresentationStatusEvents": function(dispatcher) {
-    
+
   },
-  
+
   "bindClientStatusEvents": function(dispatcher) {
     var _instance = this;
     dispatcher.bind("stoppedFollowingPresenter.squeenote", function() {
@@ -160,7 +160,7 @@ squeenote.UI.prototype = {
       $(".slide_count").html(presentation.slide_count);
     });
   },
-  
+
   "bindPresenterStatusEvents": function(dispatcher) {
     dispatcher.bind("presenterOnline.squeenote", function() {
       $(".presenter_online").show();
@@ -174,7 +174,7 @@ squeenote.UI.prototype = {
       $(".presenter_slide_number").html(presentation.presenter_slide_index+1);
     });
   },
-  
+
   "bindClientControlActions": function(dispatcher) {
     var _instance = this;
     $(document).bind(this.keyPressEventName(), function(event) {
@@ -186,19 +186,19 @@ squeenote.UI.prototype = {
          event.preventDefault();
          _instance.presentation.nextSlide();
        }
-    });    
+    });
   },
-  
+
   "bindPresenterControlActions": function(dispatcher) {
     var _instance = this;
     // Bind keyboard event
     $(document).bind(this.keyPressEventName(), function(event) {
       if(_instance.listen_for_presenter_hotkey && event.keyCode == _instance.presenter_controls_toggle_keycode) {
         _instance.togglePresenterAndClientControls(event);
-      }    
+      }
     });
   },
-  
+
   "bindDeviceEvents": function() {
     var _instance = this;
     if(squeenote.Device.iPad()) {
@@ -208,17 +208,18 @@ squeenote.UI.prototype = {
       })
     }
   },
-  
+
   "togglePresenterAndClientControls": function() {
     intro = (this.presenter_controls_shown)? $(".client_controls") : $(".presenter_controls");
     outro = (this.presenter_controls_shown)? $(".presenter_controls") : $(".client_controls");
     intro.animate({opacity: 1, left: 0}, 250);
     outro.animate({opacity: 0, left: -500}, 250);
     this.presenter_controls_shown = !this.presenter_controls_shown;
+    this.presenter_controls_shown && $('#presenter_password').focus();
   },
-  
+
   "keyPressEventName": function() {
     return (navigator.userAgent.toLowerCase().indexOf("firefox") < 0)? "keyup" : "keypress";
   }
-  
+
 }

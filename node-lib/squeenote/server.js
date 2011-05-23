@@ -1,8 +1,6 @@
 // JS OO
 require.paths.unshift(__dirname + '/vendor/js-oo/lib');
 require('oo');
-// Socket.io
-require.paths.unshift(__dirname + '/vendor/socket.io');
 var io = require('socket.io');
 // Core libs
 var http = require('http'),
@@ -10,9 +8,9 @@ var http = require('http'),
     fs = require('fs'),
     sys = require('sys'),
     querystring = require('querystring');
-    
+
 Server = this.Server = Class({
-  
+
   init: function(presentation_path, presenter_password) {
     this.presenter_slide_history = []; // Contains all previously-selected slide indexes, excluding the currently-selected index.
     this.presenter_slide_index = null;
@@ -21,7 +19,7 @@ Server = this.Server = Class({
     this.httpListener = null;
     this.wsListener = null;
   },
-  
+
   // Starts the server on the given port.
   listen: function(port) {
     // Create the regular HTTP-flavour server
@@ -40,15 +38,15 @@ Server = this.Server = Class({
     });
     this.wsListener.addListener("clientDisconnect", function(client) {
       _server.wsClientDisconnected(client);
-    })    
+    })
     // Tell the presenter to say SQUEEEEE!
     sys.puts('Get your SQUEEEEE on at http://127.0.0.1:'+port+'/ - Press ctrl+c to stop the server.');
   },
-  
+
   // ------------------------------------------------------------------------------------------
   // HTTP Responders
   // ------------------------------------------------------------------------------------------
-  
+
   // Acts as the main request router for inbound requests.
   routeRequest: function(req, res) {
     var request_info = url.parse(req.url);
@@ -57,7 +55,7 @@ Server = this.Server = Class({
     else if(request_info.pathname.indexOf("/public" > -1)) return this.staticFileResponse(req, res);
     else return this.notFoundResponse(req, res);
   },
-  
+
   // Responds to the given request with the contents of the presentation file selected at server start.
   presentationResponse: function(req, res) {
     sys.puts("Serving presentation markup");
@@ -67,7 +65,7 @@ Server = this.Server = Class({
       res.end();
     });
   },
-  
+
   // Returns the contents of a static file if the file exists within the public directory.
   // Responds with a 404 Not Found if the file does not exist.
   // Responds with a 403 Forbidden if the requested path contains ".." or any other jiggery-pokery.
@@ -83,32 +81,32 @@ Server = this.Server = Class({
       res.end();
     });
   },
-  
+
   // Denies an inbound response with a 403 Forbidden status.
   denyResponse: function(req, res, message) {
     sys.puts("Denying inbound request.");
     res.writeHead(403, {});
     res.end();
   },
-  
+
   notFoundResponse: function(req, res) {
     var request_info = url.parse(req.url);
     sys.puts("404 Not Found: "+request_info.href);
     res.writeHead(404, {});
     res.end();
   },
-  
-  
+
+
   // ------------------------------------------------------------------------------------------
   // Websocket / Socket.io responders
   // ------------------------------------------------------------------------------------------
-  
+
   // Called when a socket.io client connects to the service
   wsClientConnected: function(client) {
     sys.puts("wsClientConnected");
     this.wsClientMessageReceived({}, client);
   },
-  
+
   // Called when a socket.io client sends a message to the service.
   // Acts as a router action for websocket messages.
   wsClientMessageReceived: function(message, client) {
@@ -125,7 +123,7 @@ Server = this.Server = Class({
     if(message.client_slide_index != null) {
       if(presenter_authenticated) this.setPresenterSlide(message.client_slide_index);
     }
-    
+
     // Authenticated?
     client_response.authenticated_as_presenter = presenter_authenticated;
     // Remote slide state
@@ -138,16 +136,16 @@ Server = this.Server = Class({
     // Note: some_client.broadcast will broadcast to all clients *except* some_client.
     if(presenter_authenticated) client.broadcast(broadcast_response);
   },
-  
+
   // Called when a socket.io client disconnects from the service
   wsClientDisconnected: function(client) {
     sys.puts("wsClientDisconnected");
   },
-  
+
   // ------------------------------------------------------------------------------------------
   // Utilities
   // ------------------------------------------------------------------------------------------
-  
+
   // Sets the current presenter slide index and stores the previous value in the history stack.
   setPresenterSlide: function(index) {
     sys.puts("setPresenterSlide: "+index);
@@ -155,6 +153,6 @@ Server = this.Server = Class({
     this.presenter_slide_index = index;
     return this.presenter_slide_index;
   }
-  
-  
+
+
 });

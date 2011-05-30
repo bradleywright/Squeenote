@@ -107,7 +107,6 @@ squeenote.Presentation.prototype = {
     this.slide_count = $(this.jq_slide_selector).length;
     
     // Perform socket.io setup
-    io.setPath('/common/js/socket.io/');
     this.socket = new io.Socket(window.location.host.split(":")[0], {
       transports: ['websocket', 'server-events', 'htmlfile', 'xhr-multipart', 'xhr-polling']
     });

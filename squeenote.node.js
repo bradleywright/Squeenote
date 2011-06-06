@@ -8,11 +8,12 @@ var presenter_password = "crc"; // This is the default password allowing the pre
 var port = 8080; // The port at which the Squeenote server will listen for requests.
 
 // Parse commandline arguments
-for(var i=0; i<process.argv.length; i++) {
+for(var i=0, args=process.argv; i<args.length; i++) {
   // is this a flag, and is the next item a valid argument?
-  flag = process.argv[i]; arg = process.argv[i+1];
+  var flag = args[i],
+      arg = args[i+1];
   if(flag.indexOf("-") == 0 && arg && arg.indexOf("-") != 0) {
-    switch(process.argv[i]) {
+    switch(args[i]) {
       case "-p":
         presenter_password = arg;
         break;
@@ -27,4 +28,3 @@ for(var i=0; i<process.argv.length; i++) {
 }
 
 squeenote.listen(presentation_path, presenter_password, port);
-return;

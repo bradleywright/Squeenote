@@ -175,13 +175,19 @@ squeenote.Presentation.prototype = {
       var loc = window.location.href.toString();
       var url = loc.split("#")[0];
       var anchor = loc.split("#")[1];
-      window.location = url+"#slide-"+index;    
+      window.location = url+"#slide-"+index;
     }
-    
+      else {
+      var loc = window.location.href.toString();
+      var url = loc.split("#")[0];
+      var anchor = loc.split("#")[1];
+          window.location = url + "#start";
+}
+
     // Do the slide iteration
     $(this.jq_slide_selector).each(function() {
-      li = $(this);
-      li_state = li.attr("data-slide-state");
+      var li = $(this);
+      var li_state = li.attr("data-slide-state");
       if(i < index) {
         if(li_state != "done") {
           li.attr("data-slide-state", "done");
